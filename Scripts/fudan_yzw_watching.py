@@ -52,28 +52,34 @@ def main(n):
     # 设置请求头信息
     rep = urllib.request.Request(baseUrl, headers=header)
     m_Log.logWrite("reptile", "fdyzw", "start", "start")
-    response = urllib.request.urlopen(rep)
-    data = response.read()
-    if (data == ''):
-        print("read DownloadUrl failed")
-        exit()
-    else:
-        print("读取成功")
-        # print(data)
-    soup = BeautifulSoup(data, "lxml")
-    print("解析中")
-    time.sleep(1)
-    texts = soup.find_all('font', style="font-weight:bold;")
-    for text in texts:
-        print(text)
-        print('\n')
-    print("第一条信息是：")
-    print(texts[0])
-    print(diff(texts[0]))
-    print("执行完成，这是第" + str(n) + '遍')
-    print("______________________________________________________")
-    time.sleep(20)
-    m_Log.logWrite("reptile", "fdyzw", "end", "__________________________________")
+    try:
+        response = urllib.request.urlopen(rep)
+        data = response.read()
+        if (data == ''):
+            print("read DownloadUrl failed")
+            exit()
+        else:
+            print("读取成功")
+            # print(data)
+        soup = BeautifulSoup(data, "lxml")
+        print("解析中")
+        time.sleep(1)
+        texts = soup.find_all('font', style="font-weight:bold;")
+        for text in texts:
+            print(text)
+            print('\n')
+        print("第一条信息是：")
+        print(texts[0])
+        print(diff(texts[0]))
+        print("执行完成，这是第" + str(n) + '遍')
+        print("______________________________________________________")
+        time.sleep(100)
+        m_Log.logWrite("reptile", "fdyzw", "end", "__________________________________")
+    except Exception as e:
+        time.sleep(200)
+        m_Log.logWrite("reptile", "fdyzw", "error", str(e))
+        m_Log.logWrite("reptile", "fdyzw", "error", "error_____________")
+        main(n)
 
 
 # 入口
